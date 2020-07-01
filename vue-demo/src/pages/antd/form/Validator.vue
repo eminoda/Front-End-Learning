@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="demo">
     <div class="markdown-body" v-html="doc"></div>
     <a-card title="注册表单示例">
       <a-form :form="form">
@@ -39,6 +39,62 @@
         </a-form-item>
       </a-form>
     </a-card>
+
+    <div class="markdown-body" v-html="doc2"></div>
+    <a-card title="注册表单示例">
+      <a-form
+        :form="form2"
+        :labelCol="formItems.username.labelCol"
+        :wrapperCol="formItems.username.wrapperCol"
+      >
+        <a-form-item :label="formItems.username.label">
+          <a-input
+            v-decorator="
+              buildDecorator('username', {
+                rules: [
+                  {
+                    required: true,
+                    message: '请输入用户名'
+                  }
+                ]
+              })
+            "
+            :placeholder="formItems.username.placeholder"
+          />
+        </a-form-item>
+        <a-form-item
+          :label="formItems.email.label"
+          extra="用户名，邮箱可二选一"
+        >
+          <a-input
+            v-decorator="
+              buildDecorator('email', {
+                rules: [
+                  {
+                    required: true,
+                    message: '请输入邮箱'
+                  },
+                  {
+                    pattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
+                    message: '请输入正确的邮箱'
+                  }
+                ]
+              })
+            "
+            :placeholder="formItems.email.placeholder"
+          />
+        </a-form-item>
+        <a-form-item :label="formItems.password.label">
+          <a-input
+            v-decorator="formItems.password.decorator"
+            :placeholder="formItems.password.placeholder"
+          />
+        </a-form-item>
+        <a-form-item :wrapperCol="{ span: 4, offset: 3 }">
+          <a-button type="primary" @click="submit2">提交</a-button>
+        </a-form-item>
+      </a-form>
+    </a-card>
   </div>
 </template>
 
@@ -47,6 +103,7 @@ export default {
   data() {
     return {
       doc: require('./doc/Validator.md'),
+      doc2: require('./doc/Validator2.md'),
       form: this.$form.createForm(this, { onValuesChange: this.onValuesChange }),
       formFields: this.initFormFields(),
       formItems: {
@@ -92,10 +149,21 @@ export default {
             }]
           }]
         }
-      }
+      },
+      form2: this.$form.createForm(this)
     }
   },
   methods: {
+    buildDecorator(id, options) {
+      const formValues = this.form2.getFieldsValue()
+      if (id == 'username') {
+        options.rules[0].required = !formValues.email
+      }
+      if (id == 'email') {
+        options.rules[0].required = !formValues.username
+      }
+      return [id, options]
+    },
     // 默认表单校验的 field 字段
     initFormFields() {
       return ['username', 'email', 'password']
@@ -116,6 +184,15 @@ export default {
     submit() {
       // 校验表单
       this.form.validateFields(this.formFields, (err, values) => {
+        if (!err) {
+          console.log(values)
+          this.$message.info('提交成功')
+        }
+      });
+    },
+    submit2() {
+      // 校验表单
+      this.form2.validateFields((err, values) => {
         if (!err) {
           console.log(values)
           this.$message.info('提交成功')

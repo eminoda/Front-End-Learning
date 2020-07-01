@@ -1,21 +1,18 @@
 <template>
-  <div>
-    <div class="markdown-body" v-html="doc1"></div>
+  <div class="demo">
     <!-- 1 -->
-    <a-card title="grid 栅格对照">
+    <div class="markdown-body" v-html="doc1"></div>
+    <a-card>
       <a-row class="demo" :gutter="24">
         <a-col :span="1" v-for="(item, index) in 24" :key="index"
           >col-{{ index + 1 }}
         </a-col>
       </a-row>
-    </a-card>
-    <!-- 2 -->
-    <a-card title="常见的表单布局">
-      <a-row class="demo" :gutter="24">
-        <a-col :span="3">col-3 </a-col>
-        <a-col :span="5">col-5 </a-col>
+      <a-row style="margin-top:10px;" class="demo" :gutter="24">
+        <a-col :span="4">col-4 </a-col>
+        <a-col :span="6">col-6 </a-col>
       </a-row>
-      <a-form :form="form" :label-col="{ span: 3 }" :wrapper-col="{ span: 5 }">
+      <a-form :form="form" :label-col="{ span: 4 }" :wrapper-col="{ span: 6 }">
         <a-form-item label="用户名">
           <a-input />
         </a-form-item>
@@ -24,9 +21,9 @@
         </a-form-item>
       </a-form>
     </a-card>
-    <!-- 3 -->
+    <!-- 2 -->
     <div class="markdown-body" v-html="doc2"></div>
-    <a-card title="不含 label 的表单项">
+    <a-card>
       <a-row class="demo" :gutter="24">
         <a-col :span="3">col-3 </a-col>
         <a-col :span="5">col-5 </a-col>
@@ -40,9 +37,9 @@
         </a-form-item>
       </a-form>
     </a-card>
-    <!-- 4 -->
+    <!-- 3 -->
     <div class="markdown-body" v-html="doc3"></div>
-    <a-card title="同行多个表单 Item">
+    <a-card>
       <a-row class="demo" :gutter="24">
         <a-col :span="3">col-3 </a-col>
         <a-col :span="6">col-6 </a-col>

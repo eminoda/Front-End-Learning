@@ -1,8 +1,8 @@
 .markdown-body {
   padding: 2%;
   background-color: #fff;
-  margin: 5px;
-  box-shadow: 2px 2px 10px -3px #e8e8e8;
+  /* margin: 5px; */
+  /* box-shadow: 2px 2px 10px -3px #e8e8e8; */
 }
 .markdown-body .octicon {
   display: inline-block;

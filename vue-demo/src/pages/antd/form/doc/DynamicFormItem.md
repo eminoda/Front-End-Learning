@@ -1,6 +1,6 @@
 ## 动态表单
 
-复杂的后端管理系统，逃不掉表单元素的动态生成，结合 Antd 就会有这几个问题：
+复杂的后端管理系统，逃不掉表单项的动态增减，结合 Antd 就会有这几个问题：
 
 - 怎么在已经写好的 Form 表单中，增添新的表单元素？
 - 怎么友好的添加新表单字段？甚至是一批字段？
@@ -19,16 +19,20 @@
 所以只要维护一个（数组）变量（例中为：dynamicGroup），然后根据修改逻辑，往这个数组中增减元素，最后通过 v-for 动态渲染出对应的表单标签即可。
 
 ```html
+<!-- 每个 a-row 就是相同一组的元素；a-col 展示不同字段 -->
 <a-row v-for="(dynamicFields, index) of dynamicGroup" :key="index">
   <a-col>
-    <!-- form-item -->
+    <!-- form-item 字段1-->
+  </a-col>
+  <a-col>
+    <!-- form-item 字段2-->
   </a-col>
 </a-row>
 ```
 
 ### 怎么友好添加新的表单字段？
 
-在 dynamicGroup 动态元素集合中，我放的是“一批”动态的字段（也是数组类型）。
+在 dynamicGroup 动态元素集合中，我放的是“一批”动态的字段 dynamicFields（也是数组类型）。
 
 ```js
 // data
@@ -68,36 +72,51 @@ addDynamicGroup() {
 
 ### 怎么和表单校验联动处理？
 
-你应该注意到：我在 dynamicFields 中的每个字段对象中定义了一个 decorator 方法（而非 key-value）
+你应该注意到：我在 dynamicFields 中的每个字段对象中定义了一个 decorator function 方法（而非 key-value）
 
 ```js
 {
     fieldName: 'username',
     label: '用户名',
     placeholder: '请输入用户名',
+    // 有意为之
     decorator(key) {
-    return [key, {
-        rules: [{
-        required: true,
-        message: '请输入用户名'
+        return [key, {
+            rules: [{
+            required: true,
+            message: '请输入用户名'
+            }]
         }]
-    }]
     }
 }
 ```
 
-这样的好处就是，我能在 template 直接调用该方法，然后传入一个“唯一”值，这样最后 form 的验证就能根据不同的 key 进行独一无二的校验。
+原因就是，每批增加的表单项“们”都是相互独立的，而验证需要交给 v-decorator 实现，而这个指令需要接受一个“唯一值”：id，所以这里将 key 动态化。
+
+这样最后 form 的验证就能根据不同的 key 进行独一无二的校验。
 
 ```html
 <a-input :placeholder="item.placeholder" v-decorator="item.decorator(`tree[${index}][${item.fieldName}]`)" />
 ```
 
-注意到，我这个 key 也不是随便设置的：
+注意到，因为每次成批添加，每批包含多个字段。所以这个 key 需要符合复杂对象的定义形式（antd 会帮我们解析到 form values）：
 
 ```js
-tree[${index}][${item.fieldName}]
+`tree[${index}].${item.fieldName}`;
 ```
 
-假设后端对应有个 tree 的数组数据，内部元素也是和 fieldName 对应，那么还能正确表单回显。
+**友情提示**，一个数组结构内包含一个复杂对象采用上述结构，如果你用了如下形式是回显不了值的：
 
-同时最后表单输入的数据，结构还能“原封不动”的通过接口传给后端，很完美。
+```js
+`tree[${index}][${item.fieldName}]`; //我是在实际开发中被坑了好久才醒悟的
+
+// 然后又在项目里写下了如此代码（目前还没时间删掉 --||）
+for (let i = 0; i < tree.length; i++) {
+  const item = tree[i];
+  for (let key in item) {
+    self.form.setFieldsValue({
+      [`tree[${i}][${key}]`]: item[key],
+    });
+  }
+}
+```

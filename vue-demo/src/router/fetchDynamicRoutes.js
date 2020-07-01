@@ -92,16 +92,7 @@ const dynamicRoutes = [
             componentName: '/antd/form/FieldTool',
             meta: {
               id: '2-5',
-              name: '表单字段',
-              group: 'form',
-            },
-          },
-          {
-            path: '/antd/form/demo',
-            componentName: '/antd/form/Demo',
-            meta: {
-              id: '2-6',
-              name: '表单DEMO',
+              name: '表单优化',
               group: 'form',
             },
           },

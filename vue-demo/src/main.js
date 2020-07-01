@@ -1,6 +1,6 @@
 import 'ant-design-vue/dist/antd.css';
 import './style/github-markdown.css';
-import './style/antd.css';
+import './style/antd.less';
 import Vue from 'vue';
 import store from './store';
 import router from './router';

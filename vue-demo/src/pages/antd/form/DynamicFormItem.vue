@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <!-- <div class="markdown-body" v-html="doc"></div> -->
+  <div class="demo">
+    <div class="markdown-body" v-html="doc"></div>
     <a-card title="动态表单 Demo">
       <a-form :form="form">
         <a-row
@@ -13,9 +13,7 @@
             <a-form-item :label="item.label" v-bind="fieldsLayout">
               <a-input
                 :placeholder="item.placeholder"
-                v-decorator="
-                  item.decorator(`tree[${index}][${item.fieldName}]`)
-                "
+                v-decorator="item.decorator(`tree[${index}].${item.fieldName}`)"
               />
             </a-form-item>
           </a-col>
@@ -108,14 +106,16 @@ export default {
       // 接口返回
       const tree = [{ username: '前端雨爸', nickname: 'eminoda' }]
       self.$nextTick(function() {
-        for (let i = 0; i < tree.length; i++) {
-          const item = tree[i]
-          for (let key in item) {
-            self.form.setFieldsValue({
-              [`tree[${i}][${key}]`]: item[key]
-            })
-          }
-        }
+        // 注意，别这样赋值
+        // for (let i = 0; i < tree.length; i++) {
+        //   const item = tree[i]
+        //   for (let key in item) {
+        //     self.form.setFieldsValue({
+        //       [`tree[${i}][${key}]`]: item[key]
+        //     })
+        //   }
+        // }
+        self.form.setFieldsValue({ tree })
       })
     }, 1000)
   }
