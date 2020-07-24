@@ -1,0 +1,27 @@
+{
+  "name": "@eminoda/cypress",
+  "version": "1.0.0",
+  "description": "cypress 入门",
+  "main": "index.js",
+  "scripts": {
+    "test": "cypress open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eminoda/frontend-learn.git"
+  },
+  "keywords": [
+    "cypress",
+    "e2e",
+    "test"
+  ],
+  "author": "eminoda",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eminoda/frontend-learn/issues"
+  },
+  "homepage": "https://github.com/eminoda/frontend-learn#readme",
+  "devDependencies": {
+    "cypress": "^4.11.0"
+  }
+}
