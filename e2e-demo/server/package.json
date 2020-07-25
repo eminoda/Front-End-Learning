@@ -1,0 +1,22 @@
+{
+  "name": "@eminoda/server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "server": "supervisor ./app.js"
+  },
+  "keywords": [
+    "koa"
+  ],
+  "author": "eminoda",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.13.0",
+    "koa-bodyparser": "^4.3.0",
+    "koa-router": "^9.1.0"
+  },
+  "devDependencies": {
+    "supervisor": "^0.12.0"
+  }
+}

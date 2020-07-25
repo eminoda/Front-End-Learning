@@ -50,6 +50,10 @@ npm i chromedriver -D
 
 搭建完环境，运行 ./tests/helloworld.js 测试用例，效果如下：
 
+```
+npm test
+```
+
 ![helloworld](./docs/helloworld.gif)
 
 ## 参考
@@ -57,6 +61,7 @@ npm i chromedriver -D
 - [chromedrive 与 chrome 版本对照表](https://blog.csdn.net/BinGISer/article/details/88559532)
 - [chromedrive 安装方式](https://www.npmjs.com/package/chromedriver#building-and-installing)
 - [nightwatchjs](https://nightwatchjs.org/gettingstarted/installation/)
+- [nightwatch cli](https://nightwatchjs.org/guide/running-tests/#command-line-options)
 
 ## 附录
 

@@ -1,4 +1,5 @@
 module.exports = {
+  '@disabled': true,
   'Demo test baidu.com': function (browser) {
     browser
       .url('https://www.baidu.com/')
